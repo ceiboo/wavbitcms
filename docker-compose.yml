@@ -1,0 +1,23 @@
+version: "3.7"
+services:
+    cms:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: ceiboo-harbour
+        container_name: ceiboo-harbour-src-bin
+        volumes:
+            - ./src:/app/src
+        command: ["./cms"]
+
+    dbsystem:
+        image: mysql:5.7
+        container_name: ceiboo-harbour-mysql
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: wavbit
+            MYSQL_ROOT_PASSWORD: xt378lpr3_t
+            MYSQL_PASSWORD: ROx9NW?s_Xab34y
+            MYSQL_USER: admin
+            SERVICE_TAGS: dev
+            SERVICE_NAME: mysql        

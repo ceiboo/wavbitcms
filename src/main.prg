@@ -11,9 +11,6 @@
 #include "inkey.ch"
 #include "config.ch"
 
-#ifdef __HARBOUR__
-#include "libmysql.ch"
-#endif
 *-------------------------------------------------------------------------
 *
 * Archivo.....: main.prg
@@ -54,8 +51,7 @@ CLEAR SCREEN
 IF (cLOentorno:=GETENV("cms"))==""
 	MI_FICHEROEMPRESA:="cms.ini"
 	aPUconfig[MI_PUESTO]:=1
-	aviso("NO SE HA DECLARADO LA VARIABLE DE ENTORNO SET FACTORY=",;
-		"POR DEFECTO SET FACTORY=/F:CMS.INI /P:1")
+	*aviso("NO SE HA DECLARADO LA VARIABLE DE ENTORNO SET FACTORY=",;"POR DEFECTO SET FACTORY=/F:CMS.INI /P:1")
 ELSE
 	nLOatf:=AT("/F:",cLOentorno)
 	nLOatp:=AT("/P:",cLOentorno)

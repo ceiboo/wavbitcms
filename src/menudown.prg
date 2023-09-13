@@ -200,7 +200,7 @@ PUBLIC cPUpantallaPrincipal
 	ELSE
 		clear screen
 		FOR nLOcontador:= 0 TO MAXROW()
-			@  nLOcontador, 00 SAY REPLICATE(chr(176),MAXCOl()+1) COLOR colorInverso()
+			@  nLOcontador, 00 SAY REPLICATE(chr(178),MAXCOl()+1) COLOR colorInverso()
 		ENDFOR
 			
 		cPUpantallaPrincipal:=savescreen(00,00,MAXROW(),MAXCOL())
@@ -208,13 +208,15 @@ PUBLIC cPUpantallaPrincipal
 DO WHILE .T.
 	* Disenio del fondo:
 		RESTSCREEN(00,00,MAXROW(),MAXCOL(),cPUpantallaPrincipal)
-		@  00, 00 SAY SPACE(MAXCOL()) COLOR colorFondo()
-		@  01, 00 SAY SPACE(MAXCOL()) COLOR colorNormal()
-		@  00, 00 SAY "Wavbit cms 1.0 | "+longDate(DATE()) COLOR colorFondo()
+		@  00, 00 SAY SPACE(MAXCOL()+1) COLOR colorFondo()
+		@  01, 00 SAY SPACE(MAXCOL()+1) COLOR colorNormal()
+		@  00, 01 SAY longDate(DATE()) COLOR colorFondo()
+		@  00, MAXCOL()-14 SAY "Wavbit cms 1.0 " COLOR colorFondo()
 		
-		@  MAXROW(), 00 SAY SPACE(MAXCOL()) COLOR colorFondo()
-		@  MAXROW(), 01 SAY "Company: "+aPUempresa[MI_EMPRESA] COLOR colorFondo()
-		@  MAXROW(), 52 SAY "Harbour Project" COLOR colorFondo()
+		@  MAXROW(), 00 SAY SPACE(MAXCOL()+1) COLOR colorFondo()
+		*@  MAXROW(), 01 SAY "Company: "+aPUempresa[MI_EMPRESA] COLOR colorFondo()
+		@  MAXROW(), 01 SAY "Company: Wavbit" COLOR colorFondo()
+		@  MAXROW(), MAXCOL()-15 SAY "Harbour Project" COLOR colorFondo()
 	
 	* Visualizacion en pantalla las opciones del menu de barra:
 	nLOcoordx:=0

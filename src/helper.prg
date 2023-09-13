@@ -325,7 +325,18 @@ RETURN(.T.)
 *
 *-------------------------------------------------------------------------
 FUNCTION longDate(dPAfecha)
-RETURN(CDOW(dPAfecha)+","+STR(DAY(dPAfecha),2)+" de "+CMONTH(dPAfecha)+" de "+STR(YEAR(dPAfecha),4))
+IF DAY(dPAfecha)==1
+	dia:="1st"
+ELSEIF DAY(dPAfecha)==2
+	dia:="2nd"
+ELSEIF DAY(dPAfecha)==3
+	dia:="3rd"
+ELSE
+	dia:=STR(DAY(dPAfecha),2)+"th"
+ENDIF
+
+RETURN(CDOW(dPAfecha)+", "+dia+" of "+CMONTH(dPAfecha)+", "+STR(YEAR(dPAfecha),4))
+*RETURN(CDOW(dPAfecha)+","+STR(DAY(dPAfecha),2)+" de "+CMONTH(dPAfecha)+" de "+STR(YEAR(dPAfecha),4))
 
 
 *-------------------------------------------------------------------------

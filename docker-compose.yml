@@ -2,10 +2,43 @@ version: "3.7"
 services:
     cms:
         build:
+            args:
+                user: wavbit
+                uid: 1000
             context: .
-            dockerfile: Dockerfile
-        image: ceiboo-harbour
-        container_name: ceiboo-harbour-src-bin
+            dockerfile: ./Dockerfile
+        image: ceiboo-harbour-php
+        container_name: ceiboo-harbour-php
         volumes:
-            - ./src:/app/src
-        command: ["./cms"]
+            - ./harbour/src:/home/wavbit/app
+            - ./php/:/home/wavbit/php
+            - ./.storage/:/home/wavbit/.storage
+        working_dir: /home/wavbit/app
+        networks:
+            ceiboo-na:
+                ipv4_address: 172.10.2.44
+
+    mysql-ceiboo:
+        image: mysql:8.0
+        container_name: ceiboo-mysql-sys
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: wavbit-mysql
+            MYSQL_ROOT_PASSWORD: 123456
+            MYSQL_PASSWORD: 123456
+            MYSQL_USER: admin
+            SERVICE_TAGS: dev
+            SERVICE_NAME: mysql
+        volumes:
+            - './.storage/mysql:/var/lib/mysql'
+        networks:
+            ceiboo-na:
+                ipv4_address: 172.10.2.43
+
+networks:
+    ceiboo-na:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.10.2.0/23

@@ -1,95 +1,6 @@
 #include "inkey.ch"
 #include "config.ch"
 
-*-------------------------------------------------------------------------
-*
-* Archivo.....: helper.prg
-*
-* Autor.......: Ceiboo "Software Development" | José Luis Alfaro
-*
-* Fecha.......: 2023/09/12  
-*
-* Version.....: wavbit cms 1.0
-*
-* Funciones:   sonidoIr()
-*			   sonidoVenir()
-*			   centrar()
-*			   window()
-*			     sombra()
-*			   seguro()
-*			   aviso()
-*			   esquina()
-*			   longDate()
-*			   eleccion()
-*			   dispositivo()
-*			     controlTeclas()
-*			     editarParDisp()
-*			     mostrarParametros()
-*			   cargarDispos()
-*			   pUpper()
-*			   exacto()
-*			   elapTime()
-*			   valTime()
-*			   salirYa()
-*			   calculaCoordenadas()
-*			   plexFondo()
-*			   sobreElAutor()
-*			   santaFe()
-*			   calculadora()
-*			   salvaPantalla()
-*			   xBuscar()
-*			   nuevaColumna()
-*			   borrarColumnas()
-*			   closeTabla()
-*			   openTabla()
-*			   mostrarReporte()
-*			       fcMostrarReporte()
-*			   hexaToInt()
-*			   prCommit()
-*			   leeAlicuota()
-*			   keyBoard()
-*			   valTipoComprobante()
-*			   estaEntre()
-*			   leerGuiaOri()
-*			   procesando()
-*			   verParcial()
-*			   verFinal()
-*			   stLlave()
-*			   nombreTamano()
-*			   verDatosMedicamento()
-*			   verMedicaSemejantes()
-*			   estaEnValores()
-*			   rubroNomb()
-*			   mensaje()
-*			   estadoModem()
-*			   rpEnReceta()
-*			   grabarMensaje()
-*			   leerMensaje()
-*			   armaPaqueteModem()
-*			   datosRetira()
-*			   leePaqueteModem()
-*			   leerPresentacion()
-*			   MemLibre()
-*			   Bisiesto()
-*			   mensaDebito()
-*			   pideAnulCredito()
-*			   grabarAutorizacion()
-*			   pideAutorizacion()
-*			   ArrayRespuesta()
-*			   leeRespuesta()
-*			   esNumero()
-*			   GraSaveScreen
-*			   GraRestScreen
-*
-*-------------------------------------------------------------------------
-
-*-------------------------------------------------------------------------
-*
-* Funcion.....: sonidoIr
-*
-* Resumen.....:	Genera un sonido de Ida
-*
-*-------------------------------------------------------------------------
 FUNCTION  sonidoIr()
 LOCAL nLOtiempo
 IF aPUconfig[MI_SONIDO]=="S"
@@ -134,7 +45,7 @@ RETURN( .T. )
 *-------------------------------------------------------------------------
 FUNCTION centrar(cPAtexto, nPAlineaIni, nPAcolIni, nPAcolFin, cPAcolor)
 LOCAL nLOx, nLOy, nLOz
-cPAcolor:=IIF(cPAcolor==NIL,colorNormal(),cPAcolor)
+cPAcolor:=IIF(cPAcolor==NIL,colorPrimary(),cPAcolor)
 DO CASE
 	CASE nPAlineaIni==NIL
 		nLOx:=MAXROW()-1
@@ -179,7 +90,7 @@ IF lPAsombra
 	sombra(nPAfilaInicial+01, nPAcolInicial+01, nPAfilaFinal+01, nPAcolFinal+02 )
 	*cLObox:=''
 ENDIF
-SETCOLOR( colorNormal() )
+SETCOLOR( colorPrimary() )
 @ nPAfilaInicial, nPAcolInicial-01, nPAfilaFinal, nPAcolFinal+01 BOX '         '
 @ nPAfilaInicial, nPAcolInicial, nPAfilaFinal, nPAcolFinal BOX cLObox
 IF cPAmenSuperior != NIL
@@ -203,13 +114,13 @@ RETURN(.T.)
 *
 *-------------------------------------------------------------------------
 FUNCTION sombra(nPAfilaInicial, nPAcolInicial, nPAfilaFinal, nPAcolFinal, cPAmenSuperior, nPAsombra)
-@ nPAfilaInicial, nPAcolInicial, nPAfilaFinal, nPAcolFinal BOX '        ' COLOR colorInverso()
+@ nPAfilaInicial, nPAcolInicial, nPAfilaFinal, nPAcolFinal BOX '        ' COLOR colorSecondary()
 RETURN .T.
 
 
 *-------------------------------------------------------------------------
 *
-* Funcion.....: seguro
+* Funcion.....: alert
 *
 * Parametros..: cPAmensa1  // Texto del mensaje en pantalla.
 *				cPAmensa2  // Texto para la segunda linea.
@@ -222,7 +133,7 @@ RETURN .T.
 * Resumen.....:	Funcion que genera una ventana de texto
 *
 *-------------------------------------------------------------------------
-FUNCTION seguro(cPAmensa1, cPAmensa2, aPAarray)
+FUNCTION alert(cPAmensa1, cPAmensa2, aPAarray)
 LOCAL nLOmenu:=1, nLOcursorActual, nLOvalor, nLOindice, cLOpantalla,;
 	  nLOcantLineas:=0
 nLOcursorActual:=SETCURSOR()
@@ -230,7 +141,6 @@ nLOlineas:=MLCOUNT(cPAmensa1,60)-1
 IF nLOlineas==0
 	cPAmensa1:=PADC(cPAmensa1,60," ")
 ENDIF
-sonidoIr()
 cLOpantalla:=SAVESCREEN(08-nLOlineas,08,17,75)
 window(09-nLOlineas,09,15,72,.t.)
 cPAmensa2:=IIF(PCOUNT()==1,"",cPAmensa2)
@@ -238,7 +148,7 @@ KEYBOARD CHR(K_ESC)
 MEMOEDIT(cPAmensa1,11-nLOlineas,10,11,71,.F.,,60)
 centrar(cPAmensa2,12,10,71)
 IF aPAarray==NIL
-	@ 13,29 PROMPT  "   Si   "
+	@ 13,29 PROMPT  "  Yes   "
 	@ 13,44 PROMPT  "   No   "
 ELSE
 	DO CASE
@@ -258,7 +168,7 @@ ELSE
 ENDIF
 MENU TO nLOmenu
 RESTSCREEN(08-nLOlineas,08,17,75,cLOpantalla)
-sonidoVenir()
+
 SETCURSOR(nLOcursorActual)
 RETURN IIF(PCOUNT()<=2,IIF(nLOmenu=1,.T.,.F.),nLOmenu)
 
@@ -274,7 +184,7 @@ RETURN IIF(PCOUNT()<=2,IIF(nLOmenu=1,.T.,.F.),nLOmenu)
 *
 *-------------------------------------------------------------------------
 FUNCTION aviso( cPAmensa1,cPAmensa2 )
-RETURN(seguro(cPAmensa1,cPAmensa2,{" Continuar "}))
+RETURN(alert(cPAmensa1,cPAmensa2,{" Continuar "}))
 
 
 *-------------------------------------------------------------------------
@@ -336,7 +246,9 @@ ELSE
 ENDIF
 
 RETURN(CDOW(dPAfecha)+", "+dia+" of "+CMONTH(dPAfecha)+", "+STR(YEAR(dPAfecha),4))
-*RETURN(CDOW(dPAfecha)+","+STR(DAY(dPAfecha),2)+" de "+CMONTH(dPAfecha)+" de "+STR(YEAR(dPAfecha),4))
+
+FUNCTION fulltime()
+RETURN(DTOS(Date())+SUBSTR(TIME(),1,2)+SUBSTR(TIME(),4,2)+SUBSTR(TIME(),7,2))
 
 
 *-------------------------------------------------------------------------
@@ -460,34 +372,8 @@ RETURN ROUND(nPAnumero,2)
 FUNCTION valTime(cPAtime)
 RETURN(VAL(SUBSTR(cPAtime,1,2)+SUBSTR(cPAtime,4,2)+SUBSTR(cPAtime,7,2)))
 
-
-*-------------------------------------------------------------------------
-*
-* Funcion.....: salirYa
-*
-* Autor.......: Sch�nhals Fischer, Rodolfo Eduardo
-*
-* Ultima Rev..: Wed 07/10/1998 23:34:38  Adolfo con R
-*
-*-------------------------------------------------------------------------
-FUNCTION salirYa()
-LOCAL nLOindice, cLOpantalla
-*	FOR nLOindice:=1 TO MAXCOL()
-*		cLOpantalla:=SAVESCREEN(00,02,MAXROW(),MAXCOL())
-*		RESTSCREEN(00,00,MAXROW(),MAXCOL()-3,cLOpantalla)
-*		@ 00,78 CLEAR TO MAXROW(),MAXCOL()
-*	ENDFOR
-SETCOLOR("W/N")
-@ 00,00 CLEAR TO MAXROW(),MAXCOL()
-sonidoVenir()
-screenBackExit(1)
-SETCOLOR("W/N,N,N,N,N")
-@ 24,00 SAY " "
-CLOSE ALL
-RELEASE ALL
-SETCURSOR(1)
-QUIT
-RETURN(.T.)
+FUNCTION valDate(cPAtime)
+RETURN(VAL(SUBSTR(cPAtime,1,2)+SUBSTR(cPAtime,4,2)+SUBSTR(cPAtime,7,2)))
 
 *-------------------------------------------------------------------------
 *
@@ -537,7 +423,7 @@ FUNCTION sobreElAutor()
 LOCAL cLOpanta
 SAVE SCREEN TO cLOpanta
 window(07,09,16,69,.T.)
-@ 09,26 SAY "INFORMACION SOBRE EL AUTOR" COLOR colorInverso()
+@ 09,26 SAY "INFORMACION SOBRE EL AUTOR" COLOR colorSecondary()
 @ 13,11 SAY " La empresa Ceiboo tiene sus oficinas en Parque Sarmiento 500, "
 @ 14,11	SAY "    Gualeguaychu (2820) Entre Rios, Tel.+54 3446-557777.    "
 INKEY(0)
@@ -628,23 +514,3 @@ ELSE
 	lLOvalor:=.F.
 ENDIF
 RETURN lLOvalor
-
-FUNCTION colorNormal()
-*LOCAL aLOcolores:=&(aPUconfig[MI_TONO])
-*RETURN aLOcolores[1]
-RETURN aPUconfig[MI_ARRAYTONO][1]
-
-FUNCTION colorInverso()
-*LOCAL aLOcolores:=&(aPUconfig[MI_TONO])
-*RETURN aLOcolores[2]
-RETURN aPUconfig[MI_ARRAYTONO][2]
-
-FUNCTION colorFondo()
-*LOCAL aLOcolores:=&(aPUconfig[MI_TONO])
-*RETURN aLOcolores[3]
-RETURN aPUconfig[MI_ARRAYTONO][3]
-
-FUNCTION colorDeshabilitado()
-*LOCAL aLOcolores:=&(aPUconfig[MI_TONO])
-*RETURN aLOcolores[4]
-RETURN aPUconfig[MI_ARRAYTONO][4]

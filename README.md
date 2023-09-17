@@ -1,6 +1,6 @@
 # Nia Tracker System - Harbour Project on Docker
 
-### INSTALL AND CONFIGURE PLATFORM ###
+# INSTALL AND CONFIGURE PLATFORM
 ```bash
 git clone https://github.com/ceiboo/wavbitcms.git
 cd wavbitcms
@@ -8,13 +8,13 @@ mkdir .stogare
 mkdir .stogare/data
 chmod 777 -R .storage
 ```
-# Create the dockers instances
+### Create the dockers instances
 `docker compose up -d --build`
 
-# Install vendor packages for PHP
+### Install vendor packages for PHP
 `docker compose exec cms composer install`
 
-# Configure DATABASE connection
+### Configure DATABASE connection
 `cd /php/src/backend/.env`
 `nano .env`
 - Change: (if neccesary, for default this is ok with docker):
@@ -29,20 +29,20 @@ chmod 777 -R .storage
 * You can use the data from the local database here
 
 
-# Create Database structure and insert data
+### Create Database structure and insert data
 `docker compose exec cms php command Migrate`
 
-# Test GetUser Command
+### Test GetUser Command
 `docker compose exec cms php command GetUsers`
 
-# Down the platform
+### Down the platform
 `docker compose down`
 
 
-### EXECUTE PLATFORM ###
+# EXECUTE PLATFORM
 
-# Test GetUser Command
+### Test GetUser Command
 `docker compose exec cms php command GetUsers`
 
-# Execute NIA Tracker System
+### Execute NIA Tracker System
 `docker compose exec cms ./cms`
